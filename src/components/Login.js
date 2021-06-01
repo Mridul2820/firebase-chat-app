@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import 'firebase/auth'
 import { auth } from '../firebase/firebase'
+import firebase from 'firebase/app'
 
 const Login = () => {
     return (
