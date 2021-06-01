@@ -1,18 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FaFacebook, FaGoogle } from "react-icons/fa";
+import 'firebase/auth'
+import { auth } from '../firebase/firebase'
 
 const Login = () => {
     return (
         <StyledLogin>
             <LoginCard>
                 <h2>Wellcome to Firechat</h2>
-                <LoginItem className="google">
+                <LoginItem 
+                    className="google"
+                    onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()) }
+                >
                     <FaGoogle size="24px"/> 
                     <p>Sign in With Google</p>
                 </LoginItem>
 
-                <LoginItem className="facebook">
+                <LoginItem 
+                    className="facebook"
+                    onClick={() => auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()) }
+                >
                     <FaFacebook size="24px"/> 
                     <p>Sign in With Facebook</p>
                 </LoginItem>
