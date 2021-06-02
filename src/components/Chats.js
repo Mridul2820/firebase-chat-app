@@ -30,7 +30,8 @@ const Chats = () => {
 
     useEffect(() => {
         if (!didMountRef.current) {
-        didMountRef.current = true
+            didMountRef.current = true
+            
             if(!user) {
                 history.push('/')
                 return;
