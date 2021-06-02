@@ -29,41 +29,44 @@ const Chats = () => {
     }
 
     useEffect(() => {
-        if(!user) {
-            history.push('/')
-            return;
-        }
-
-        axios.get('https://api.chatengine.io/users/me/',{
-            headers: {
-                "project-id": process.env.REACT_APP_CHATENGINE,
-                "user-name": user.email,
-                "user-secret": user.uid
+        if (!didMountRef.current) {
+        didMountRef.current = true
+            if(!user) {
+                history.push('/')
+                return;
             }
-        }).then(() => {
-            setLoading(false)
-        })
-        .catch(() => {
-            let formdata = new FormData()
 
-            formdata.append('email' , user.email)
-            formdata.append('username' , user.email)
-            formdata.append('secret' , user.uid)
-
-            getFile(user.photoURL).then((avatar) => {
-                formdata.append('avatar' , avatar, avatar.name)
-
-                axios.post(
-                    'https://api.chatengine.io/users/',
-                    formdata,
-                    {headers: { 
-                        "private-key": process.env.REACT_APP_CHATENGINEKEY
-                    }}
-                )
-                .then(() => setLoading(false))
-                .catch((err) => console.log(err))
+            axios.get('https://api.chatengine.io/users/me/',{
+                headers: {
+                    "project-id": process.env.REACT_APP_CHATENGINE,
+                    "user-name": user.email,
+                    "user-secret": user.uid
+                }
+            }).then(() => {
+                setLoading(false)
             })
-        })
+            .catch(() => {
+                let formdata = new FormData()
+
+                formdata.append('email' , user.email)
+                formdata.append('username' , user.email)
+                formdata.append('secret' , user.uid)
+
+                getFile(user.photoURL).then((avatar) => {
+                    formdata.append('avatar' , avatar, avatar.name)
+
+                    axios.post(
+                        'https://api.chatengine.io/users/',
+                        formdata,
+                        {headers: { 
+                            "private-key": process.env.REACT_APP_CHATENGINEKEY
+                        }}
+                    )
+                    .then(() => setLoading(false))
+                    .catch((err) => console.log(err))
+                })
+            })
+        }
     }, [user, history])
 
     if(!user || loading) return 'Loading...'
