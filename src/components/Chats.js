@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/AuthContext'
 import axios from 'axios';
 
 const Chats = () => {
+    const didMountRef = useRef(false)
     const history = useHistory()
 
     const { user } = useAuth()
